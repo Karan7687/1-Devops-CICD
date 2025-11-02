@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/Karan7687/1-Devops-CICD.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t jenkins-docker-app .'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh '''
+                docker stop jenkins-app || true
+                docker rm jenkins-app || true
+                docker run -d -p 4000:4000 --name jenkins-app jenkins-docker-app
+                '''
+            }
+        }
+    }
+}
