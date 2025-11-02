@@ -4,23 +4,25 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git 'https://github.com/Karan7687/1-Devops-CICD.git'
+                git branch: 'main', url: 'https://github.com/Karan7687/1-Devops-CICD.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                sh 'docker build -t jenkins-docker-app .'
+                echo "Building project..."
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Test') {
             steps {
-                sh '''
-                docker stop jenkins-app || true
-                docker rm jenkins-app || true
-                docker run -d -p 4000:4000 --name jenkins-app jenkins-docker-app
-                '''
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying application..."
             }
         }
     }
